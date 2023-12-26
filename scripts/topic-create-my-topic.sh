@@ -1,0 +1,1 @@
+"$KAFKA_HOME"/bin/kafka-topics --create --bootstrap-server localhost:9090 --partitions 5 --replication-factor 2 --topic my-topic --config segment.bytes=1000000

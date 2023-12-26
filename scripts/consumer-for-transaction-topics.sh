@@ -1,0 +1,1 @@
+"$KAFKA_HOME"/bin/kafka-console-consumer --whitelist "transaction-topic-1|transaction-topic-2" --bootstrap-server localhost:9090 --from-beginning
