@@ -2,14 +2,18 @@ package example.multithreaded;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProducerRunnable implements Runnable{ // the dispatcher
-    private String producerId, bootstrapServers, topic;
+    private String producerThreadId, bootstrapServers, topic;
     private int numEvents;
     private KafkaProducer<Integer, String> producer;
 
-    public ProducerRunnable(String producerId, String bootstrapServers, int numEvents, String topic, KafkaProducer<Integer, String> producer) {
-        this.producerId = producerId;
+    private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+
+    public ProducerRunnable(String producerThreadId, String bootstrapServers, int numEvents, String topic, KafkaProducer<Integer, String> producer) {
+        this.producerThreadId = producerThreadId;
         this.bootstrapServers = bootstrapServers;
         this.numEvents = numEvents;
         this.topic = topic;
@@ -19,11 +23,11 @@ public class ProducerRunnable implements Runnable{ // the dispatcher
     @Override
     public void run()
     {
-        System.out.println(String.format("%s: starting to send", producerId));
+        logger.info(String.format("%s: starting to send", producerThreadId));
         for(int i = 0 ; i < numEvents; i++)
         {
-            producer.send(new ProducerRecord<>(topic, i, "From " + producerId + " " + i));
+            producer.send(new ProducerRecord<>(topic, i, "From " + producerThreadId + " " + i));
         }
-        System.out.println(String.format("%s: sent all messages", producerId));
+        logger.info(String.format("%s: sent all messages", producerThreadId));
     }
 }

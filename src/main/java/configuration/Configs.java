@@ -9,4 +9,8 @@ public class Configs {
     public static final String TRANSACTION_ID = "transaction-1";
     public static final String TT_1 = "transaction-topic-1";
     public static final String TT_2 = "transaction-topic-2";
+
+    public static final String CONSUMER_ID = "invoice-consumer";
+    public static final String GROUP_ID = "invoice-validator-group";
+    public static final String AUTO_OFFSET_RESET_CONFIG = "earliest";
 }

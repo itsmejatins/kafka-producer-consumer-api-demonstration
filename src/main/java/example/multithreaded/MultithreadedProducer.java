@@ -5,13 +5,15 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import configuration.Configs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 public class MultithreadedProducer {
-
+    private static Logger logger = LoggerFactory.getLogger(MultithreadedProducer.class.getName());
     public static void main(String[] args) {
         Properties props = new Properties();
         props.put(ProducerConfig.CLIENT_ID_CONFIG, Configs.CLIENT_ID);
@@ -22,11 +24,11 @@ public class MultithreadedProducer {
         KafkaProducer<Integer, String> producer = new KafkaProducer<>(props);
 
         List<Thread> allThreads = new ArrayList<>();
+        logger.info("Starting producer threads");
         for (int t = 0; t < Configs.NUM_THREADS; t++) {
             ProducerRunnable pr = new ProducerRunnable("producer " + t, Configs.BOOTSTRAP_SERVERS, Configs.NUM_EVENTS, Configs.TOPIC_NAME, producer);
             Thread thread = new Thread(pr);
             allThreads.add(thread);
-            System.out.println(String.format("Producer with id = %d is starting", t));
             thread.start();
         }
 

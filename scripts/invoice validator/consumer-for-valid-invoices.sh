@@ -1,0 +1,1 @@
+"$KAFKA_HOME"/bin/kafka-console-consumer --topic valid-invoices --bootstrap-server localhost:9090 --from-beginning
